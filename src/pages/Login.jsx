@@ -75,7 +75,7 @@ function Login({ handleSubmit, isLoading }) {
                 type="submit"
                 data-testid="login-submit-button"
                 disabled={ !validFields }
-                onClick={ () => handleSubmit(nameValue) }
+                onClick={ () => handleSubmit(nameValue, hoursValue, minutesValue) }
               >
                 Entrar
               </button>

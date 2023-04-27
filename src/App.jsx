@@ -8,9 +8,9 @@ function App() {
   const [logado, setLogado] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (nameValue) => {
+  const handleSubmit = async (name, hour, minutes) => {
     setIsLoading(true);
-    await createUser({ name: nameValue });
+    await createUser({ name, hour, minutes });
     setLogado(true);
   };
 
