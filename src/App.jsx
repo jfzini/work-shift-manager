@@ -4,6 +4,8 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { createUser } from './services/userAPI';
 import Login from './pages/Login';
 import UserPage from './pages/UserPage';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import {AdapterLuxon} from '@mui/x-date-pickers/AdapterLuxon';
 
 function App() {
   const [logado, setLogado] = useState(false);
@@ -18,6 +20,7 @@ function App() {
   };
 
   return (
+    <LocalizationProvider dateAdapter={AdapterLuxon} adapterLocale={'pt-br'}>
       <Routes>
         <Route path="/" element={logado
             ? <Navigate to={`/user-page/${userName}`} />
@@ -30,6 +33,7 @@ function App() {
         <Route path="/profile/edit" element={<EditProfile />} />
         <Route path="/*" element={<NotFound />} /> */}
       </Routes>
+    </LocalizationProvider>
   );
 }
 
