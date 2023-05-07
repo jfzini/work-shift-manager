@@ -1,18 +1,39 @@
 import React, { useState } from 'react';
-import Fieldset from './Fieldset';
-import { CURRENT_SHIFT } from './data/currentShiftData';
-import { DateField, DatePicker } from '@mui/x-date-pickers';
+import Fieldset from './TimePickerShift';
+import { DateField, DatePicker, TimePicker } from '@mui/x-date-pickers';
 import { DateTime } from 'luxon';
 
 export default function CurrentShift() {
-  const [value, setValue] = useState(DateTime.local());
+  const [startShiftValue, setStartShiftValue] = useState(DateTime.local());
+  const [endShiftValue, setEndShiftValue] = useState(DateTime.local());
+  const [startBreakValue, setStartBreakValue] = useState(DateTime.local());
+  const [endBreakValue, setEndBreakValue] = useState(DateTime.local());
 
   return (
     <form>
-      <DatePicker value={value} onChange={(newValue) => setValue(newValue)} />
-      {CURRENT_SHIFT.map(({legend, id}) => (
-        <Fieldset legend={legend} id={id} key={id} />
-      ))}
+      <DatePicker
+        value={startShiftValue}
+      />
+      <TimePicker
+        label='Horário de entrada'
+        value={startShiftValue}
+        onChange={(newValue) => setStartShiftValue(newValue)}
+      />
+      <TimePicker
+        label='Início do Intervalo'
+        value={startBreakValue}
+        onChange={(newValue) => setStartBreakValue(newValue)}
+      />
+      <TimePicker
+        label='Final do Intervalo'
+        value={endBreakValue}
+        onChange={(newValue) => setEndBreakValue(newValue)}
+      />
+      <TimePicker
+        label='Horário de Saída'
+        value={endShiftValue}
+        onChange={(newValue) => setEndShiftValue(newValue)}
+      />
     </form>
   )
 }

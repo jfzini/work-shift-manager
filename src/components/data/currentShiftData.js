@@ -1,18 +1,15 @@
-export const CURRENT_SHIFT = [
-  {
-    legend: 'Horário de entrada',
-    id: 'start-shift-',
-  },
-  {
-    legend: 'Começo do intervalo',
-    id: 'start-break-',
-  },
-  {
-    legend: 'Final do intervalo',
-    id: 'end-break-',
-  },
-  {
-    legend: 'Horário de saída',
-    id: 'end-shift-',
-  },
-];
+// export const CURRENT_SHIFT = [
+//   {
+//     label: 'Horário de entrada',
+//     value: 
+//   },
+//   {
+//     label: 'Começo do intervalo',
+//   },
+//   {
+//     label: 'Final do intervalo',
+//   },
+//   {
+//     label: 'Horário de saída',
+//   },
+// ];
