@@ -1,8 +1,8 @@
-export const saveShiftData = (shiftData) => {
-  const prevData = localStorage.getItem('shiftData');
+export const saveToLocalStorage = ( item, data) => {
+  const prevData = localStorage.getItem(item);
   const parsedPrevData = prevData ? JSON.parse(prevData) : [];
-  const shiftDataStringified = JSON.stringify([...parsedPrevData, shiftData]);
-  localStorage.setItem('shiftData', shiftDataStringified);
+  const dataStringified = JSON.stringify([...parsedPrevData, data]);
+  localStorage.setItem(item, dataStringified);
 };
 
 export const getShiftDuration = (shiftData) => {
