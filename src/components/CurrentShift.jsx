@@ -3,79 +3,58 @@ import Fieldset from './TimePickerShift';
 import { DateField, DatePicker, TimePicker } from '@mui/x-date-pickers';
 import { DateTime } from 'luxon';
 import { saveShiftData } from '../services/storageHelpers';
+import { CURRENT_SHIFT } from './data/currentShiftData';
 
 export default function CurrentShift() {
-  const [startShiftValue, setStartShiftValue] = useState(DateTime.local());
-  const [endShiftValue, setEndShiftValue] = useState(DateTime.local());
-  const [startBreakValue, setStartBreakValue] = useState(DateTime.local());
-  const [endBreakValue, setEndBreakValue] = useState(DateTime.local());
-  
-  const genShiftVal = startShiftValue.c;
+  const [value, setValue] = useState({ SHIFT_START: DateTime.local() });
+
+  const genShiftVal = value.c;
 
   const saveShift = (e) => {
     e.preventDefault();
-    const shiftStart = {
-      hour: genShiftVal.hour,
-      minute: genShiftVal.minute,
-    };
-    const breakStart = {
-      hour: startBreakValue.c.hour,
-      minute: startBreakValue.c.minute,
-    };
-    const breakEnd = {
-      hour: endBreakValue.c.hour,
-      minute: endBreakValue.c.minute,
-    };
-    const shiftEnd = {
-      hour: endShiftValue.c.hour,
-      minute: endShiftValue.c.minute,
-    };
-    const shiftData = {
-      [`${genShiftVal.day}-${genShiftVal.month}-${genShiftVal.year}`]: {
-        shiftStart,
-        breakStart,
-        breakEnd,
-        shiftEnd,
-      },
-    };
-    saveShiftData(shiftData);
+    saveShiftData(value);
+  };
+
+  const getCurDate = () => {
+    const curMonth =
+      value.SHIFT_START.c.month >= 10
+        ? value.SHIFT_START.c.month
+        : `0${value.SHIFT_START.c.month}`;
+    const curDay =
+      value.SHIFT_START.c.day >= 10
+        ? value.SHIFT_START.c.day
+        : `0${value.SHIFT_START.c.day}`;
+    return `${value.SHIFT_START.c.year}-${curMonth}-${curDay}`;
   };
 
   const getShift = () => {
     const prevData = localStorage.getItem('shiftData');
     if (prevData) {
       const parsedPrevData = JSON.parse(prevData);
-      const daysList = parsedPrevData.map((el) => Object.keys(el)[0])
-      const curDay = daysList.indexOf(`${genShiftVal.day}-${genShiftVal.month}-${genShiftVal.year}`)
-      console.log(parsedPrevData[curDay]);
+      const savedDates = parsedPrevData.map(({ SHIFT_START }) => SHIFT_START);
+      const curDate = getCurDate()
+      const testbool = savedDates.find((date) => date.includes(curDate))
+      
+      console.log(testbool);
     }
-  }
+  };
 
   getShift();
 
   return (
     <form>
-      <DatePicker value={startShiftValue} onChange={(newValue) => setStartShiftValue(newValue)} />
-      <TimePicker
-        label="Horário de entrada"
-        value={startShiftValue}
-        onChange={(newValue) => setStartShiftValue(newValue)}
+      <DatePicker
+        value={value.SHIFT_START}
+        onChange={(newValue) => setValue({ ...value, SHIFT_START: newValue })}
       />
-      <TimePicker
-        label="Início do Intervalo"
-        value={startBreakValue}
-        onChange={(newValue) => setStartBreakValue(newValue)}
-      />
-      <TimePicker
-        label="Final do Intervalo"
-        value={endBreakValue}
-        onChange={(newValue) => setEndBreakValue(newValue)}
-      />
-      <TimePicker
-        label="Horário de Saída"
-        value={endShiftValue}
-        onChange={(newValue) => setEndShiftValue(newValue)}
-      />
+      {CURRENT_SHIFT.map(({ label, id }) => (
+        <TimePicker
+          key={id}
+          label={label}
+          value={value[id] ? value[id] : ''}
+          onChange={(newValue) => setValue({ ...value, [id]: newValue })}
+        />
+      ))}
       <button onClick={saveShift}>Salvar</button>
     </form>
   );
