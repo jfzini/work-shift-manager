@@ -9,10 +9,11 @@ export default function CurrentShift() {
   const [endShiftValue, setEndShiftValue] = useState(DateTime.local());
   const [startBreakValue, setStartBreakValue] = useState(DateTime.local());
   const [endBreakValue, setEndBreakValue] = useState(DateTime.local());
+  
+  const genShiftVal = startShiftValue.c;
 
   const saveShift = (e) => {
     e.preventDefault();
-    const genShiftVal = startShiftValue.c;
     const shiftStart = {
       hour: genShiftVal.hour,
       minute: genShiftVal.minute,
@@ -39,6 +40,18 @@ export default function CurrentShift() {
     };
     saveShiftData(shiftData);
   };
+
+  const getShift = () => {
+    const prevData = localStorage.getItem('shiftData');
+    if (prevData) {
+      const parsedPrevData = JSON.parse(prevData);
+      const daysList = parsedPrevData.map((el) => Object.keys(el)[0])
+      const curDay = daysList.indexOf(`${genShiftVal.day}-${genShiftVal.month}-${genShiftVal.year}`)
+      console.log(parsedPrevData[curDay]);
+    }
+  }
+
+  getShift();
 
   return (
     <form>
