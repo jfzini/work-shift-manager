@@ -39,7 +39,10 @@ export default function CurrentShift() {
         const breakDuration = (breakEnd - breakStart) / (1000 * 60 * 60);
 
         const hoursWorked = shiftDuration - breakDuration;
-        return hoursWorked.toFixed(2)
+
+        const options = { day: 'numeric', month: 'numeric', year: 'numeric' };
+        const testString = shiftStart.toLocaleDateString('pt-br', options);
+        return {[testString]: hoursWorked.toFixed(2)}
       });
       console.log(teste);
     }
