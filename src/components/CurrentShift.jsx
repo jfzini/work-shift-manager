@@ -8,8 +8,6 @@ import { CURRENT_SHIFT } from './data/currentShiftData';
 export default function CurrentShift() {
   const [value, setValue] = useState({ SHIFT_START: DateTime.local() });
 
-  const genShiftVal = value.c;
-
   const saveShift = (e) => {
     e.preventDefault();
     saveShiftData(value);
@@ -27,6 +25,28 @@ export default function CurrentShift() {
     return `${value.SHIFT_START.c.year}-${curMonth}-${curDay}`;
   };
 
+  const calcShift = () => {
+    const prevData = localStorage.getItem('shiftData');
+    if (prevData) {
+      const parsedPrevData = JSON.parse(prevData);
+      const teste = parsedPrevData.map((date) => {
+        const shiftStart = new Date(date.SHIFT_START);
+        const breakStart = new Date(date.BREAK_START);
+        const breakEnd = new Date(date.BREAK_END);
+        const shiftEnd = new Date(date.SHIFT_END);
+
+        const shiftDuration = (shiftEnd - shiftStart) / (1000 * 60 * 60);
+        const breakDuration = (breakEnd - breakStart) / (1000 * 60 * 60);
+
+        const hoursWorked = shiftDuration - breakDuration;
+        return hoursWorked.toFixed(2)
+      });
+      console.log(teste);
+    }
+  };
+
+  calcShift()
+
   // const getShift = () => {
   //   const prevData = localStorage.getItem('shiftData');
   //   if (prevData) {
@@ -34,8 +54,6 @@ export default function CurrentShift() {
   //     const savedDates = parsedPrevData.map(({ SHIFT_START }) => SHIFT_START);
   //     const curDate = getCurDate()
   //     const testbool = savedDates.find((date) => date.includes(curDate))
-
-  //     console.log(testbool);
   //   }
   // };
 
