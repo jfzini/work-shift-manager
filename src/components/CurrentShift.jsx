@@ -27,19 +27,19 @@ export default function CurrentShift() {
     return `${value.SHIFT_START.c.year}-${curMonth}-${curDay}`;
   };
 
-  const getShift = () => {
-    const prevData = localStorage.getItem('shiftData');
-    if (prevData) {
-      const parsedPrevData = JSON.parse(prevData);
-      const savedDates = parsedPrevData.map(({ SHIFT_START }) => SHIFT_START);
-      const curDate = getCurDate()
-      const testbool = savedDates.find((date) => date.includes(curDate))
-      
-      console.log(testbool);
-    }
-  };
+  // const getShift = () => {
+  //   const prevData = localStorage.getItem('shiftData');
+  //   if (prevData) {
+  //     const parsedPrevData = JSON.parse(prevData);
+  //     const savedDates = parsedPrevData.map(({ SHIFT_START }) => SHIFT_START);
+  //     const curDate = getCurDate()
+  //     const testbool = savedDates.find((date) => date.includes(curDate))
 
-  getShift();
+  //     console.log(testbool);
+  //   }
+  // };
+
+  // getShift();
 
   return (
     <form>
