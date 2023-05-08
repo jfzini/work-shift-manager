@@ -5,13 +5,26 @@ import { DateTime } from 'luxon';
 import { getShiftDuration, saveToLocalStorage } from '../services/storageHelpers';
 import { CURRENT_SHIFT } from './data/currentShiftData';
 
-export default function CurrentShift() {
+export default function CurrentShift({user}) {
   const [value, setValue] = useState({ SHIFT_START: DateTime.local() });
   const [overshift, setOvershift] = useState(0)
   //USAR A DATA NO FORMATO DD/MM/YYYY COMO CHAVE PARA O LOCAL STORAGE 
   const saveShift = (e) => {
     e.preventDefault();
     saveToLocalStorage('shiftData', value);
+    // fetch(`http://localhost:3000/${user}/shift`, {
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   method: 'POST',
+    //   body: JSON.stringify(value),
+    // })
+    // .then(response => {
+    //   console.log(response.json())
+    // })
+    // .catch(error => {
+    //   console.log(error.message)
+    // });
     calcShift();
   };
 
@@ -28,7 +41,7 @@ export default function CurrentShift() {
   const calcOvershift = (shiftHistory) => {
     const shiftDuration = Object.values(shiftHistory[shiftHistory.length - 1])[0];
     let overshiftValue = (shiftDuration - 8) * 60;
-    overshiftValue = overshiftValue > 10 ? overshiftValue : 0;
+    overshiftValue = overshiftValue > 10 || overshiftValue < 10 ? overshiftValue : 0;
     setOvershift(overshiftValue.toFixed(2));
   };
 

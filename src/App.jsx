@@ -25,7 +25,7 @@ function App() {
         <Route path="/" element={logado
             ? <Navigate to={`/user-page/${userName}`} />
             : <Login isLoading={isLoading} handleSubmit={handleSubmit} />} />
-        <Route path="/user-page/:name" element={<UserPage />} />
+        <Route path="/user-page/:name" element={<UserPage user={userName} />} />
         {/* <Route path="/search" element={<Search />} />
         <Route path="/album/:id" element={<Album />} />
         <Route path="/favorites" element={<Favorites />} />
